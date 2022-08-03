@@ -1,0 +1,13 @@
+﻿@using FileSharingApp.Data.Entities
+@model File
+    
+   
+    <div class="card mb-4" style="height:225px;width:200px;" >
+        <div class="card-body" style="height:100px;"  >
+            <h5 class="card-title">@Model.Name</h5>
+            <iframe width="100px" height="50px" type="application/pdf" scrolling="no" src="~/files/@Model.Path"></iframe>
+        </div>
+            <div class="card-footer text-center mb-1" style="height:40px;">
+                <a  href="~/files/@Model.Path" download>Yüklə</a>
+            </div>
+    </div>

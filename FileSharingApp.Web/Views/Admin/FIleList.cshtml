@@ -1,0 +1,49 @@
+﻿@model FileListViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="h3">Admin Files</h1>
+        <hr />
+        <a class="btn btn-primary btn-sm" href="/admin/createfile">Fayl Əlavə Et</a>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <td style="width: 30px;">Id</td>
+                    <td style="width: 30px;">Fayl</td>
+                    <td style="width: 200px;">Name</td>
+                    <td>Path</td>
+                    <td style="width: 160px;"></td>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.FileModels.Count > 0)
+                {
+                    @foreach (var item in Model.FileModels)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td><iframe type="application/pdf" scrolling="no" src="~/files/@item.Path" style="width:100px;height:50px;"></iframe></td>                            
+                            <td>@item.Name</td>
+                            <td>@item.Path</td>
+                            <td>
+                                <a href="/admin/editfile/@item.Id" class="btn btn-primary btn-sm mr-2">Düzəliş et</a>
+
+                                <form action="/admin/deletefile" method="post" style="display:inline;">
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm ">Sil</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>Fayl yoxdur</h3>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
