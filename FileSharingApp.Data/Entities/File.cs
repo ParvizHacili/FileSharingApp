@@ -14,9 +14,8 @@ namespace FileSharingApp.Data.Entities
         public string UserId { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public string ReceivePath { get; set; }
-        public string SenderId { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public User User { get; set; }
+        public ICollection<UserFile> UserFiles { get; set; }
     }
 }

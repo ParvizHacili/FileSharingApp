@@ -25,6 +25,7 @@ namespace FileSharingApp.Business.Concrete
         public void Delete(File entity)
         {
             _unitOfWork.Files.Delete(entity);
+            _unitOfWork.Save();
         }
 
         public List<File> GetAll()
@@ -37,14 +38,30 @@ namespace FileSharingApp.Business.Concrete
             return _unitOfWork.Files.GetById(id);
         }
 
+        public File GetByIdWithUsers(int id)
+        {
+            return _unitOfWork.Files.GetByIdWithUsers(id);
+        }
+
         public List<File> GetFilesByUserId(string userId)
         {
             return _unitOfWork.Files.GetFilesByUserId(userId);
         }
 
+        public List<File> SharedFiles(string userId)
+        {
+            return _unitOfWork.Files.SharedFiles(userId);
+        }
+
         public void Update(File entity)
         {
             _unitOfWork.Files.Update(entity);
+            _unitOfWork.Save();
+        }
+
+        public void Update(File entity, string[] userIds)
+        {
+            _unitOfWork.Files.Update(entity, userIds);
             _unitOfWork.Save();
         }
     }

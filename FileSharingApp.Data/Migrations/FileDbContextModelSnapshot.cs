@@ -35,12 +35,6 @@ namespace FileSharingApp.Data.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReceivePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SenderId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -120,6 +114,21 @@ namespace FileSharingApp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("FileSharingApp.Data.Entities.UserFile", b =>
+                {
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FileId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -262,6 +271,25 @@ namespace FileSharingApp.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FileSharingApp.Data.Entities.UserFile", b =>
+                {
+                    b.HasOne("FileSharingApp.Data.Entities.File", "File")
+                        .WithMany("UserFiles")
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FileSharingApp.Data.Entities.Identity.User", "User")
+                        .WithMany("UserFiles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -311,6 +339,16 @@ namespace FileSharingApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FileSharingApp.Data.Entities.File", b =>
+                {
+                    b.Navigation("UserFiles");
+                });
+
+            modelBuilder.Entity("FileSharingApp.Data.Entities.Identity.User", b =>
+                {
+                    b.Navigation("UserFiles");
                 });
 #pragma warning restore 612, 618
         }

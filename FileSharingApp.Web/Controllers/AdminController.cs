@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FileSharingApp.Web.Controllers
@@ -28,6 +31,16 @@ namespace FileSharingApp.Web.Controllers
             return View(new FileListViewModel()
             {
                 FileModels = _fileService.GetFilesByUserId(userId)
+            });
+        }
+
+        [HttpGet]
+        public IActionResult SharedFilesByUser()
+        {
+            var userId = _userManager.GetUserId(User);
+            return View(new FileListViewModel()
+            {
+                FileModels = _fileService.SharedFiles(userId)
             });
         }
 
@@ -70,7 +83,10 @@ namespace FileSharingApp.Web.Controllers
             {
                 return NotFound();
             }
-            var entity = _fileService.GetById((int)id);
+
+            var entity = _fileService.GetByIdWithUsers((int)id);
+
+            var allUsers = _userManager.Users.ToList();
 
             if (entity == null)
             {
@@ -81,19 +97,24 @@ namespace FileSharingApp.Web.Controllers
                 Id = entity.Id,
                 Name = entity.Name,
                 Path = entity.Path,
+                SelectedUsers = entity.UserFiles.Select(i => i.User).ToList()
             };
+            ViewBag.Users = allUsers;
+
             return View(model);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> EditFile(Data.Entities.File file, IFormFile fromfile)
+        public async Task<IActionResult> EditFile(Data.Entities.File file, IFormFile fromfile,string[] userIds)
         {
+            
             var entity = _fileService.GetById(file.Id);
             if (entity == null)
             {
                 return NotFound();
             }
-
+           
             if (fromfile != null)
             {
                 var extention = Path.GetExtension(fromfile.FileName);
@@ -102,13 +123,14 @@ namespace FileSharingApp.Web.Controllers
                 entity.Path = randomName;
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files", randomName);
 
+
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await fromfile.CopyToAsync(stream);
                 }
             }
-
-            _fileService.Update(entity);
+           
+            _fileService.Update(entity,userIds);
 
             return RedirectToAction("FileList");
         }

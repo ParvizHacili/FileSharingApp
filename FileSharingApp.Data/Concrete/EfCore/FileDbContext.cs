@@ -17,7 +17,13 @@ namespace FileSharingApp.Data.Concrete
 
         }
         public DbSet<File> Files { get; set; }
+        public DbSet<UserFile> UserFiles { get; set; }
 
-        
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<UserFile>().HasKey(u => new { u.FileId,u.UserId });
+
+            base.OnModelCreating(builder);
+        }
     }
 }

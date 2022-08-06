@@ -12,5 +12,7 @@ namespace FileSharingApp.Data.Entities.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public ICollection<UserFile> UserFiles { get; set; }
+
     }
 }
