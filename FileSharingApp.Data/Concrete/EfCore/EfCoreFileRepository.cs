@@ -66,11 +66,12 @@ namespace FileSharingApp.Data.Concrete.EfCore
             }
         }
 
-        public void UpdateIsDeleted(string userId)
+        public void UpdateIsDeleted(string userId,int fileId)
         {
-            var query = $"UPDATE UserFiles set IsDeleted='1' where ([UserId]='@userId')";
+            var userFiles = FileDbContext.UserFiles.FirstOrDefault(x=>x.UserId == userId);
+            var files = FileDbContext.UserFiles.FirstOrDefault(i => i.FileId == fileId);
 
-            FileDbContext.Database.ExecuteSqlRaw(query, userId);
+            userFiles.IsDeleted = true;
         }
     }
 }

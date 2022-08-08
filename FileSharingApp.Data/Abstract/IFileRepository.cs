@@ -12,7 +12,7 @@ namespace FileSharingApp.Data.Abstract
         List<File> GetFilesByUserId(string userId);
         File GetByIdWithUsers(int id);
         void Update(File entity, string[] userIds);
-        void UpdateIsDeleted(string userId);
+        void UpdateIsDeleted(string userId, int fileId);
         List<File> SharedFiles(string userId);
     }
 }

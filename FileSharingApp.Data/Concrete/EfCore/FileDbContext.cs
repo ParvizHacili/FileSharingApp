@@ -22,7 +22,6 @@ namespace FileSharingApp.Data.Concrete
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserFile>().HasKey(u => new { u.FileId,u.UserId });
-
             base.OnModelCreating(builder);
         }
     }

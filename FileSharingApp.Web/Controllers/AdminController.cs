@@ -38,6 +38,13 @@ namespace FileSharingApp.Web.Controllers
         public IActionResult SharedFilesByUser()
         {
             var userId = _userManager.GetUserId(User);
+
+            //var files = _fileService.GetFilesByUserId(userId);
+            
+            ////var entity = _fileService.GetById(file);
+           
+            //var fileId = _fileService.GetById(entity.Id);
+
             return View(new FileListViewModel()
             {
                 FileModels = _fileService.SharedFiles(userId)
@@ -149,12 +156,15 @@ namespace FileSharingApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateIsDeleted(string userId)
+        public IActionResult UpdateIsDeleted(Data.Entities.File file)
         {
-            userId = _userManager.GetUserId(User);
+            var entity = _fileService.GetById(file.Id);
+
+            var userId = _userManager.GetUserId(User);
+            var fileId = _fileService.GetById(entity.Id);
 
 
-            _fileService.UpdateIsDeleted(userId);
+            _fileService.UpdateIsDeleted(userId,fileId.Id);
 
             return RedirectToAction("SharedFilesByUser");
         }
