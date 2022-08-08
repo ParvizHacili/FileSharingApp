@@ -14,6 +14,7 @@ namespace FileSharingApp.Business.Abstract
         void Create(File entity);
         void Update(File entity);
         void Update(File entity,string[] userIds);
+        void UpdateIsDeleted(string userId);
         void Delete(File entity);
     }
 }

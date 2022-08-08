@@ -64,5 +64,11 @@ namespace FileSharingApp.Business.Concrete
             _unitOfWork.Files.Update(entity, userIds);
             _unitOfWork.Save();
         }
+
+        public void UpdateIsDeleted(string userId)
+        {
+            _unitOfWork.Files.UpdateIsDeleted(userId);
+            _unitOfWork.Save();
+        }
     }
 }

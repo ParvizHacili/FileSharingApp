@@ -1,4 +1,5 @@
 ﻿@model FileListViewModel
+@using FileSharingApp.Data.Entities
 
 @{
     ViewData["Title"] = "Home Page";
@@ -25,9 +26,29 @@
                         @foreach (var item in Model.FileModels)
                         {
                             <div class="col-md-3">
-                                @await Html.PartialAsync("_file",item)
+                                <div class="card mb-4" style="height:350px;width:200px;" >
+                                    <div class="card-body" style="height:100px;"  >
+                                        <h5 class="card-title">@item.Name</h5>
+                                        <iframe width="100px" height="50px" type="application/pdf" scrolling="no" src="~/files/@item.Path"></iframe>
+                                    </div>
+                                        <div>
+                                            <p>Paylaşıb:@item.CreatorName</p>
+                                        </div>
+                                    <div class="card-footer text-center mb-1" style="height:40px;">
+                                        <a  href="~/files/@item.Path" download>Yüklə</a>
+                                    </div>
+                                    <div>
+                                        <div class="card-footer text-center mb-1" style="height:40px;">
+                                            <form asp-controller="Admin" asp-action="UpdateIsDeleted" method="post">
+                                                <input type="hidden"  value="@item.Id"/>
+                                            <button class="btn btn-danger bgupdate">Sil</button>
+                                            </form>
+                                         </div>
+                                    </div>
+                                </div>
                             </div>
                         }
+                        
                     </div>
                 }
             </div>
@@ -40,4 +61,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 }
 
-
+@*@await Html.PartialAsync("_file",item)
+*@

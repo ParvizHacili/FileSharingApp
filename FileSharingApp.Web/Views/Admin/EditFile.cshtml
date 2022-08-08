@@ -39,8 +39,7 @@
                            class="custom-control-input"
                            name="userIds"
                            value="@item.Id"
-                           id="user_@(item.Id)" 
-                           @(Model.SelectedUsers.Any(i=>i.Id==item.Id) ? "checked" : "")>
+                           id="user_@(item.Id)"@(Model.SelectedUsers.Any(i=>i.Id==item.Id) ? "checked" : "")>
                     <label class="custom-control-label" for="user_@(item.Id)">@item.FirstName</label>
                 </div>
             }

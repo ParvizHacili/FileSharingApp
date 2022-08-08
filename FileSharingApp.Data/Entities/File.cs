@@ -12,10 +12,10 @@ namespace FileSharingApp.Data.Entities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public string CreatorName { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public User User { get; set; }
-        public ICollection<UserFile> UserFiles { get; set; }
+        public ICollection<UserFile> UserFiles { get; set; }        
     }
 }

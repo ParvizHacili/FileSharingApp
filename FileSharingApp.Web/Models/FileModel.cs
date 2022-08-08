@@ -11,14 +11,10 @@ namespace FileSharingApp.Web.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public string CreatorName { get; set; }
         public string Name { get; set; }
         [Required(ErrorMessage = "Fayl" + UIMessages.RequiredMessage)]
         public string Path { get; set; }
-
-        //public User User { get; set; }
         public List<User> SelectedUsers { get; set; }
-       // public List<User> Users { get; set; }
-       // public List<SelectListItem> selectListUsers { get; set; } 
-        public List<UserFile> UserFiles { get; set; }
     }
 }

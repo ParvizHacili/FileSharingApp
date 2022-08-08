@@ -65,7 +65,10 @@ namespace FileSharingApp.Web.Controllers
             var randomName = string.Format($"{Guid.NewGuid()}{extention}");
             entity.Path = randomName;
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files", randomName);
-
+            foreach( var user in User.Identities)
+            {
+                entity.CreatorName = user.Name;
+            }
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await fromfile.CopyToAsync(stream);
@@ -114,7 +117,6 @@ namespace FileSharingApp.Web.Controllers
             {
                 return NotFound();
             }
-           
             if (fromfile != null)
             {
                 var extention = Path.GetExtension(fromfile.FileName);
@@ -144,6 +146,17 @@ namespace FileSharingApp.Web.Controllers
                 _fileService.Delete(entity);
             }
             return RedirectToAction("FileList");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateIsDeleted(string userId)
+        {
+            userId = _userManager.GetUserId(User);
+
+
+            _fileService.UpdateIsDeleted(userId);
+
+            return RedirectToAction("SharedFilesByUser");
         }
     }
 }

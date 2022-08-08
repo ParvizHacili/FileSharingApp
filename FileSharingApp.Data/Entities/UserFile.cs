@@ -13,5 +13,6 @@ namespace FileSharingApp.Data.Entities
         public int FileId { get; set; }
         public User User { get; set; }
         public Data.Entities.File File { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

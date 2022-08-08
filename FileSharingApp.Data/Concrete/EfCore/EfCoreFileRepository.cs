@@ -42,7 +42,8 @@ namespace FileSharingApp.Data.Concrete.EfCore
             {
                 files = files.Include(i => i.UserFiles)
                     .ThenInclude(i => i.User)
-                    .Where(i => i.UserFiles.Any(a => a.User.Id == userId));
+                    .Where(i => i.UserFiles.Any(a => a.User.Id == userId))
+                    .Where(i => i.UserFiles.Any(a => a.IsDeleted == false));
             }
             return files.ToList();
 
@@ -63,6 +64,13 @@ namespace FileSharingApp.Data.Concrete.EfCore
                     UserId = Usid
                 }).ToList();
             }
+        }
+
+        public void UpdateIsDeleted(string userId)
+        {
+            var query = $"UPDATE UserFiles set IsDeleted='1' where ([UserId]='@userId')";
+
+            FileDbContext.Database.ExecuteSqlRaw(query, userId);
         }
     }
 }
