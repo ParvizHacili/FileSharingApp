@@ -39,12 +39,6 @@ namespace FileSharingApp.Web.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            //var files = _fileService.GetFilesByUserId(userId);
-            
-            ////var entity = _fileService.GetById(file);
-           
-            //var fileId = _fileService.GetById(entity.Id);
-
             return View(new FileListViewModel()
             {
                 FileModels = _fileService.SharedFiles(userId)
